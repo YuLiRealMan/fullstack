@@ -7,3 +7,10 @@ scripts: {
     "dev": "nodemon backend/server.js"
 } 
 ```
+
+go to front end 
+    npm create vite@latest .
+    then select react and javascript
+    then npm i
+    then go to chakra ,find vite 
+    npm i @chakra-ui/react @emotion/react
