@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());    // this will allow us to parse the incoming json data
 
 app.post('/api/products', async (req, res) => {
-  console.log(req.body);
+ 
   const product = req.body;
 
   if (!product.name || !product.price || !product.image) {
@@ -28,8 +28,15 @@ app.post('/api/products', async (req, res) => {
   }
 });
 
-app.post('/products', (req, res) => {
-  res.send('Server is ready');
+app.delete('/api/products/:id', async (req, res) => {
+  const productId = req.params.id;
+  try {
+    await Product.findByIdAndDelete(productId);
+    res.status(200).json({ success: true, message: 'Product deleted successfully' });       
+    } catch (error) {  
+    console.log("Error in deleting product from the database: ", error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' }); 
+    }  
 });
 
 app.listen(5000, () => {
