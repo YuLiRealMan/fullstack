@@ -29,13 +29,13 @@ app.post('/api/products', async (req, res) => {
 });
 
 app.delete('/api/products/:id', async (req, res) => {
-  const productId = req.params.id;
+  const {id} = req.params.id; //  get the id from the request params
   try {
-    await Product.findByIdAndDelete(productId);
+    await Product.findByIdAndDelete(id);
     res.status(200).json({ success: true, message: 'Product deleted successfully' });       
     } catch (error) {  
     console.log("Error in deleting product from the database: ", error);
-    res.status(500).json({ success: false, message: 'Internal Server Error' }); 
+    res.status(404).json({ success: false, message: 'Product not found' });
     }  
 });
 
