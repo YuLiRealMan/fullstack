@@ -3,6 +3,7 @@ import express from 'express'; // need to go to package.json and add "type": "mo
 
 import { connectDB } from './config/db.js';
 import Product from './models/product.model.js';
+import { mongo } from 'mongoose';
 
 // console.log(process.env.MONGO_URI); // this will print the mongo_uri to the console
 
@@ -63,6 +64,24 @@ app.get('/api/products/:id', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error' });
   }
 });
+
+app.put('/api/products/:id', async (req, res) => { 
+  const {id} = req.params; //  get the id from the request params
+  const product = req.body; // get the product data from the request body
+
+  if(!mongo.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ success: false, message: 'Invalid Product ID' });
+  }
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(id, product, { new: true }); // find the product by id and update it      
+    res.status(200).json({ success: true, product: updatedProduct });
+  } catch (error) { 
+    console.log("Error in updating product from the database: ", error);
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+} );
+
 
 app.listen(5000, () => {
     connectDB();
