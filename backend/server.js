@@ -3,7 +3,7 @@ import express from 'express'; // need to go to package.json and add "type": "mo
 
 import { connectDB } from './config/db.js';
 import Product from './models/product.model.js';
-import { mongo } from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 // console.log(process.env.MONGO_URI); // this will print the mongo_uri to the console
 
@@ -69,7 +69,7 @@ app.put('/api/products/:id', async (req, res) => {
   const {id} = req.params; //  get the id from the request params
   const product = req.body; // get the product data from the request body
 
-  if(!mongo.Types.ObjectId.isValid(id)) {
+  if(!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ success: false, message: 'Invalid Product ID' });
   }
 
