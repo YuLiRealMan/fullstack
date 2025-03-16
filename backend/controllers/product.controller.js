@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
+
 export const getProducts = async (req, res) => {
     try {
       const products = await Product.find({});
@@ -9,7 +10,6 @@ export const getProducts = async (req, res) => {
       res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
   };
-
 
 export const createProduct = async (req, res) => {
     const product = req.body;
@@ -60,6 +60,6 @@ export const deleteProduct = async (req, res) => {
       res.status(200).json({ success: true, message: 'Product deleted successfully' });       
       } catch (error) {  
       console.log("Error in deleting product from the database: ", error);
-      res.status(404).json({ success: false, message: 'Product not found' });
+      res.status(500).json({ success: false, message: 'Server Error' });
       }  
   };
